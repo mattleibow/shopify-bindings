@@ -3,7 +3,7 @@
 
 #load "common.cake"
 
-var IOS_VERSION = "1.2.5";
+var IOS_VERSION = "1.2.6";
 var IOS_URL = string.Format ("https://github.com/Shopify/mobile-buy-sdk-ios/archive/{0}.zip", IOS_VERSION);
 
 CakeSpec.Libs = new ISolutionBuilder [] {

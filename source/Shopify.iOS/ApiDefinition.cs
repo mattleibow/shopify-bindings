@@ -734,6 +734,8 @@ namespace Shopify
 
 	delegate void BUYDataCollectionsBlock (BUYCollection[] collections, NSError error);
 
+	delegate void BUYDataCollectionsListBlock (BUYCollection[] collections, nuint page, bool reachedEnd, NSError error);
+
 	delegate void BUYDataProductListBlock (BUYProduct[] productList, nuint page, bool reachedEnd, NSError error);
 
 //	delegate void BUYDataImagesListBlock (BUYProductImage[] imagesList, NSError error);
@@ -791,6 +793,9 @@ namespace Shopify
 
 		[Export ("getCollections:")]
 		NSUrlSessionDataTask GetCollections (BUYDataCollectionsBlock block);
+
+		[Export("getCollectionsPage:completion:")]
+		NSUrlSessionDataTask GetCollectionsPage(nuint page, BUYDataCollectionsListBlock block);
 
 		[Export ("getProductsPage:inCollection:completion:")]
 		NSUrlSessionDataTask GetProductsPage (nuint page, NSNumber collectionId, BUYDataProductListBlock block);
