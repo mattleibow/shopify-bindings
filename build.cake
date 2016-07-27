@@ -6,6 +6,9 @@
 var IOS_VERSION = "1.2.6";
 var IOS_URL = string.Format ("https://github.com/Shopify/mobile-buy-sdk-ios/archive/{0}.zip", IOS_VERSION);
 
+var ANDROID_VERSION = "1.2.4";
+var ANDROID_URL = string.Format ("https://bintray.com/shopify/shopify-android/download_file?file_path=com%2Fshopify%2Fmobilebuysdk%2Fbuy%2F{0}%2Fbuy-{0}.aar", ANDROID_VERSION);
+
 CakeSpec.Libs = new ISolutionBuilder [] {
 	new DefaultSolutionBuilder {
 		SolutionPath = "./source/Shopify.sln",
@@ -14,6 +17,10 @@ CakeSpec.Libs = new ISolutionBuilder [] {
 			new OutputFileCopy {
 				FromFile = "./source/Shopify.iOS/bin/Release/Shopify.iOS.dll",
 				ToDirectory = "./output/ios"
+			},
+			new OutputFileCopy {
+				FromFile = "./source/Shopify.Android/bin/Release/Shopify.Android.dll",
+				ToDirectory = "./output/android"
 			},
 		}
 	},	
@@ -25,6 +32,7 @@ CakeSpec.Samples = new ISolutionBuilder [] {
 
 CakeSpec.NuSpecs = new [] {
     "nuget/Xamarin.Shopify.iOS.nuspec",
+    "nuget/Xamarin.Shopify.Android.nuspec",
 };
 
 Task ("externals-ios")
@@ -52,7 +60,19 @@ Task ("externals-ios")
    }
 });
 
+Task ("externals-android")
+    .IsDependentOn ("externals-base")
+    .Does (() => 
+{
+	if (!DirectoryExists ("./externals/android"))
+		CreateDirectory ("./externals/android");
+
+    if (!FileExists ("./externals/android/mobile-buy-sdk-android.aar"))
+        DownloadFile (ANDROID_URL, "./externals/android/mobile-buy-sdk-android.aar");
+});
+
 Task ("externals")
+    .IsDependentOn ("externals-android")
     .IsDependentOn ("externals-ios")
     .IsDependentOn ("externals-base")
     .Does (() => 
@@ -64,7 +84,7 @@ Task ("clean")
     .Does (() =>
 {
 	DeleteFiles ("./externals/ios/Podfile.lock");
-	CleanXCodeBuild ("./Pods/");
+	CleanXCodeBuild ("./ios/");
 });
 
 DefineDefaultTasks ();
