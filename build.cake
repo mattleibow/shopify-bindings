@@ -28,6 +28,7 @@ CakeSpec.Libs = new ISolutionBuilder [] {
 
 CakeSpec.Samples = new ISolutionBuilder [] {
 	new IOSSolutionBuilder { SolutionPath = "./samples/ShopifyiOSSample.sln" },
+	new IOSSolutionBuilder { SolutionPath = "./samples/ShopifyAndroidSample.sln" },
 };
 
 CakeSpec.NuSpecs = new [] {
