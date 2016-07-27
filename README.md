@@ -3,8 +3,7 @@
 This repo is a set of Xamarin bindings for Shopify's 
 Mobile Buy SDK.
 
-Although it works, it is still a bit of work in progress.
-Currently only iOS is bound. Android comming soon.
+Although it works, the repo is still a work in progress.
 
 ## Building
 
